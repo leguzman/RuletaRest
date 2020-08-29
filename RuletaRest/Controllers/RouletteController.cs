@@ -53,9 +53,9 @@ namespace RuletaRest.Controllers
         }
 
         [HttpPut("open/{id}")]
-        public string OpenRoulette(string id)
+        public string OpenRoulette(string rouletteId)
         {
-            var roulette = client.GetValue(id);
+            var roulette = client.GetValue(rouletteId);
             if(roulette is null)
             {
                 return "Operation Failed: roulette doesn't exist.";
@@ -68,9 +68,9 @@ namespace RuletaRest.Controllers
         }
 
         [HttpPut("close/{id}")]
-        public Roulette CloseRoulette(string id)
+        public Roulette CloseRoulette(string rouletteId)
         {
-            var roulette = client.GetValue(id);
+            var roulette = client.GetValue(rouletteId);
             if (roulette is null)
             {
                 return null;
@@ -85,7 +85,7 @@ namespace RuletaRest.Controllers
         
 
         [HttpPost("{id}/bet")]
-        public string SetBet(string id,[FromHeader]string userId, [FromBody] Bet bet)
+        public string SetBet(string rouletteId, [FromHeader]string userId, [FromBody] Bet bet)
         {
             if (!RedResults.Contains(bet.Value) && !BlackResults.Contains(bet.Value) && bet.Value!="Red" && bet.Value!="Black")
             {
@@ -95,7 +95,7 @@ namespace RuletaRest.Controllers
             {
                 return "Invalid amount for bet. Try again.";
             }
-            var roulette = client.GetValue(id);
+            var roulette = client.GetValue(rouletteId);
             if(roulette.State is "Open")
             {
                 bet.UserId = userId;
