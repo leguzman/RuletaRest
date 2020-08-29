@@ -1,27 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Data;
-using System.Linq;
-using System.Text.Json;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
-using ServiceStack;
 using ServiceStack.Redis;
 using ServiceStack.Redis.Generic;
-using StackExchange.Redis;
 
 namespace RuletaRest.Controllers
 {
     [Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
     [ApiController]
     public class RouletteController : ControllerBase
-    {
-        private readonly IDatabase _database;        
+    {    
         private IRedisTypedClient <Roulette> client;
-        private IRedisList roulettes;
         List<string> BlackResults = new List<string> { "2", "4", "6", "8", "10", "11", "13", "15", "17", "20", "22", "24", "26", "28", "29", "31", "33", "35" };
         List<string> RedResults = new List<string> { "1", "3", "5", "7", "9", "12", "14", "16", "18", "19", "21", "23", "25", "27", "30", "32", "34", "36" };
 
@@ -40,7 +29,6 @@ namespace RuletaRest.Controllers
         [HttpGet]
         public IEnumerable<Roulette> Get()
         {
-            List<Roulette> response= new List<Roulette>();
             var keys  = client.GetAllKeys();
             return client.GetValues(keys);
         }
