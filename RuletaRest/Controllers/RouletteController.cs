@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Data;
 using System.Linq;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
@@ -11,8 +12,6 @@ using ServiceStack;
 using ServiceStack.Redis;
 using ServiceStack.Redis.Generic;
 using StackExchange.Redis;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RuletaRest.Controllers
 {
@@ -23,6 +22,9 @@ namespace RuletaRest.Controllers
         private readonly IDatabase _database;        
         private IRedisTypedClient <Roulette> client;
         private IRedisList roulettes;
+        List<string> BlackResults = new List<string> { "2", "4", "6", "8", "10", "11", "13", "15", "17", "20", "22", "24", "26", "28", "29", "31", "33", "35" };
+        List<string> RedResults = new List<string> { "1", "3", "5", "7", "9", "12", "14", "16", "18", "19", "21", "23", "25", "27", "30", "32", "34", "36" };
+
 
         public RouletteController() 
         {
@@ -60,7 +62,7 @@ namespace RuletaRest.Controllers
                 Id = Guid.NewGuid().ToString(),
                 State = "Open",
                 Name = json.Name,
-                Bets = new List<string>()
+                Bets = new List<Bet>()
             };
            client.SetValue(roulette.Id,roulette);
 
@@ -72,26 +74,81 @@ namespace RuletaRest.Controllers
         public string OpenRoulette(string id)
         {
             var roulette = client.GetValue(id);
+            if(roulette is null)
+            {
+                return "Operation Failed: roulette doesn't exist.";
+            }
             roulette.State = "Open";
+            roulette.Bets.Clear();
             client.SetValue(roulette.Id, roulette);
 
             return "Roulette " + roulette.Name + " Open";
         }
         // PUT api/roulette/close/5
         [HttpPut("close/{id}")]
-        public string CloseRoulette(string id)
+        public Roulette CloseRoulette(string id)
         {
             var roulette = client.GetValue(id);
+            if (roulette is null)
+            {
+                return null;
+            }
             roulette.State = "Closed";
+            CloseBets(roulette);
             client.SetValue(roulette.Id, roulette);
-
-            return "Roulette " + roulette.Name + " Closed";
+            return roulette;
         }
 
-        // DELETE api/roulette/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        
+
+        // POST api/roulette/bet/5
+        [HttpPost("{id}/bet")]
+        public string SetBet(string id,[FromHeader]string userId, [FromBody] Bet bet)
         {
+            if (!RedResults.Contains(bet.Value) && !BlackResults.Contains(bet.Value) && bet.Value!="Red" && bet.Value!="Black")
+            {
+                return "Invalid value for bet. Try again.";
+            }
+            if(bet.Amount<1 || bet.Amount > 10000)
+            {
+                return "Invalid amount for bet. Try again.";
+            }
+            var roulette = client.GetValue(id);
+            if(roulette.State is "Open")
+            {
+                bet.UserId = userId;
+                roulette.Bets.Add(bet);
+                client.SetValue(roulette.Id, roulette);
+            }
+            else
+            {
+                return "Invalid Roulette Id. Roulette is not open.";
+            }
+
+            return "Bet has been set.";
+        }
+
+        private void CloseBets(Roulette roulette)
+        {
+            var rnd = new Random();
+            var winNumber = rnd.Next(1, 37).ToString();
+            foreach(Bet bet in roulette.Bets)
+            {
+                if (bet.Value is "Red" || bet.Value is "Black")
+                {
+                    if ((RedResults.Contains(winNumber) && bet.Value is "Red") || (BlackResults.Contains(winNumber) && bet.Value is "Black")) bet.Win = true;
+                    else bet.Win = false;
+                }
+                else if (bet.Value == winNumber)
+                {
+                    bet.Win = true;
+                }
+                else
+                {
+                    bet.Win = false;
+                }
+            }
+
         }
     }
 }

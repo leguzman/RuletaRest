@@ -10,6 +10,6 @@ namespace RuletaRest
         public string Id { get; set; }
         public string Name { get; set; }
         public string State { get; set; } = "Closed";
-        public List<string> Bets { get; set; }
+        public List<Bet> Bets { get; set; }
     }
 }

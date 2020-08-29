@@ -7,9 +7,9 @@ namespace RuletaRest
 {
     public class Bet
     {
-        public string Key { get; set; }
-        public int Value { get; set; }
-        public bool Result { get; set; }
-        public string RouletteId { get; set; }
+        public string UserId { get; set; }
+        public string Value { get; set; }
+        public int Amount { get; set; }
+        public bool? Win { get; set; }
     }
 }

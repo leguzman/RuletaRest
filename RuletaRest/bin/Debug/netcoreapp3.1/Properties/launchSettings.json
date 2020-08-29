@@ -20,7 +20,7 @@
     "RuletaRest": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "launchUrl": "api/roulette",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
