@@ -6,15 +6,14 @@ using ServiceStack.Redis.Generic;
 
 namespace RuletaRest.Controllers
 {
-    [Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class RouletteController : ControllerBase
     {    
         private IRedisTypedClient <Roulette> client;
         List<string> BlackResults = new List<string> { "2", "4", "6", "8", "10", "11", "13", "15", "17", "20", "22", "24", "26", "28", "29", "31", "33", "35" };
         List<string> RedResults = new List<string> { "1", "3", "5", "7", "9", "12", "14", "16", "18", "19", "21", "23", "25", "27", "30", "32", "34", "36" };
-
-
+        
         public RouletteController() 
         {
             using (RedisClient client = new RedisClient("localhost", 6379))
@@ -22,26 +21,22 @@ namespace RuletaRest.Controllers
                 this.client = client.As<Roulette>();
                 //this.client.FlushDb();
             }
-          
         }
-      
-        // GET api/roulette
+
         [HttpGet]
         public IEnumerable<Roulette> Get()
         {
             var keys  = client.GetAllKeys();
+
             return client.GetValues(keys);
         }
-        // GET api/roulette/5
+
         [HttpGet("{id}")]
         public Roulette Get(string id)
         {
             return client.GetValue(id);
         }
 
-
-
-        // POST api/roulette
         [HttpPost]
         public string NewRoulette([FromBody] Roulette json)
         {
@@ -57,7 +52,6 @@ namespace RuletaRest.Controllers
             return roulette.Id;
         }
 
-        // PUT api/roulette/open/5
         [HttpPut("open/{id}")]
         public string OpenRoulette(string id)
         {
@@ -72,7 +66,7 @@ namespace RuletaRest.Controllers
 
             return "Roulette " + roulette.Name + " Open";
         }
-        // PUT api/roulette/close/5
+
         [HttpPut("close/{id}")]
         public Roulette CloseRoulette(string id)
         {
@@ -84,12 +78,12 @@ namespace RuletaRest.Controllers
             roulette.State = "Closed";
             CloseBets(roulette);
             client.SetValue(roulette.Id, roulette);
+
             return roulette;
         }
 
         
 
-        // POST api/roulette/bet/5
         [HttpPost("{id}/bet")]
         public string SetBet(string id,[FromHeader]string userId, [FromBody] Bet bet)
         {
