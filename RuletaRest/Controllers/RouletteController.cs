@@ -52,7 +52,7 @@ namespace RuletaRest.Controllers
             return roulette.Id;
         }
 
-        [HttpPut("open/{id}")]
+        [HttpPut("open/{rouletteId}")]
         public string OpenRoulette(string rouletteId)
         {
             var roulette = client.GetValue(rouletteId);
@@ -67,7 +67,7 @@ namespace RuletaRest.Controllers
             return "Roulette " + roulette.Name + " Open";
         }
 
-        [HttpPut("close/{id}")]
+        [HttpPut("close/{rouletteId}")]
         public Roulette CloseRoulette(string rouletteId)
         {
             var roulette = client.GetValue(rouletteId);
@@ -84,7 +84,7 @@ namespace RuletaRest.Controllers
 
         
 
-        [HttpPost("{id}/bet")]
+        [HttpPost("{rouletteId}/bet")]
         public string SetBet(string rouletteId, [FromHeader]string userId, [FromBody] Bet bet)
         {
             if (!RedResults.Contains(bet.Value) && !BlackResults.Contains(bet.Value) && bet.Value!="Red" && bet.Value!="Black")
