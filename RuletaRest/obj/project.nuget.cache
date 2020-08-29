@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "yUqf6QW9xm+zmE5ACTExpT0hGO57cQxQ1c7JD2T+wHvCE+DvN1/SQnmWLypHKGRnmr5c0Rc1s5c8pJWqC9TfXw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\lguzman\\source\\repos\\RuletaRest\\RuletaRest\\RuletaRest.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\lguzman\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.10.9\\microsoft.visualstudio.azure.containers.tools.targets.1.10.9.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,9 @@
+C:\Users\lguzman\source\repos\RuletaRest\RuletaRest\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\lguzman\source\repos\RuletaRest\RuletaRest\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\lguzman\source\repos\RuletaRest\RuletaRest\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+C:\Users\lguzman\source\repos\RuletaRest\RuletaRest\obj\Debug\netcoreapp3.1\RuletaRest.csprojAssemblyReference.cache
+C:\Users\lguzman\source\repos\RuletaRest\RuletaRest\obj\Debug\netcoreapp3.1\RuletaRest.AssemblyInfoInputs.cache
+C:\Users\lguzman\source\repos\RuletaRest\RuletaRest\obj\Debug\netcoreapp3.1\RuletaRest.AssemblyInfo.cs
+C:\Users\lguzman\source\repos\RuletaRest\RuletaRest\obj\Debug\netcoreapp3.1\RuletaRest.RazorTargetAssemblyInfo.cache
+C:\Users\lguzman\source\repos\RuletaRest\RuletaRest\obj\Debug\netcoreapp3.1\staticwebassets\RuletaRest.StaticWebAssets.Manifest.cache
+C:\Users\lguzman\source\repos\RuletaRest\RuletaRest\obj\Debug\netcoreapp3.1\staticwebassets\RuletaRest.StaticWebAssets.xml
