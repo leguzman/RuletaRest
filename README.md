@@ -24,3 +24,8 @@ json sample:
 {"value":"Red", "amount":10000}
 ### Close Roulette:
 ##### PUT https://localhost:5001/api/roulette/close/{rouletteId}
+
+### Capturas:
+![Image 1](Capturas/roulette_1.PNG)
+![Image 1](Capturas/roulette2.png)
+![Image 1](Capturas/roulette3.png)
